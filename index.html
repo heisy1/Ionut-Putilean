@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Ionut Putilean</title>
+    </head>
+    <footer class="footer">
+        © 2025 Ionut Putilean. All rights reserved.
+    </footer>
+
+    <body>
+        <div class="rectangle2">
+        </div>
+        <div class="rectangle1">
+            <img src="Text.png" alt="Ionut Putilean Logo" class="center-text-image">
+        </div>
+
+        <div class="rectangle3">
+            <div class="email-container" onclick="copyEmail()">
+                <img src="email.png" alt="Email Icon" class="email-icon">
+                <span class="email-text">putileanionut@gmail.com</span>
+            </div>
+
+            <a href="https://www.linkedin.com/in/ionut-putilean-0b4b892b7" target="_blank">
+                <img src="icons8-linkedin-100.png" alt="LinkedIn" class="linkedin-icon">
+            </a>
+        </div>
+
+        <div class="projects-rectangle">
+            <h2>My Projects</h2>
+            <div class="projects-content">
+                <p class="github-link">
+                    <a href="https://github.com/heisy1?tab=repositories" target="_blank">
+                        <img src="github-logo.png" alt="GitHub" class="github-icon">
+                        View all my projects on GitHub
+                    </a>
+                </p>
+            </div>
+        </div>
+
+
+
+        <button id="toggle-projects">Projects</button>
+
+
+
+
+
+        <div class="photo-shape">
+            <img src="Poza profil.jpg" alt="Profile Photo">
+        </div>
+
+        <img src="police-pistol-black-by-Vexels.svg" alt="Pistol" class="pistol-bg" id="pistol">
+        <p id="shoot-text">Shoot the Projects!</p>
+
+        
+        <script>
+                function copyEmail() {
+                    const email = "putileanionut@gmail.com";
+                    navigator.clipboard.writeText(email).then(() => {
+                        alert("Email copied to clipboard!");
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+                }
+
+                const pistol = document.getElementById('pistol');
+                const toggleButton = document.getElementById('toggle-projects');
+                const projectsPanel = document.querySelector('.projects-rectangle');
+
+                let panelRecentlyOpened = false; // prevents immediate re-close
+                let bulletHandled = false;       // NEW: prevents re-triggering after close
+
+                pistol.addEventListener('click', () => {
+                    // Reset bulletHandled for this shot
+                    bulletHandled = false;
+
+                    // Recoil
+                    pistol.style.transform = 'translateY(-50%) scaleX(-1) translateX(-10px) rotate(-5deg)';
+                    setTimeout(() => {
+                        pistol.style.transform = 'translateY(-50%) scaleX(-1)';
+                    }, 150);
+
+                    // Muzzle flash
+                    const flash = document.createElement('div');
+                    flash.className = 'muzzle-flash';
+                    document.body.appendChild(flash);
+                    setTimeout(() => flash.remove(), 100);
+
+                    // Create and position bullet
+                    const bullet = document.createElement('img');
+                    bullet.src = 'bullet.png';
+                    bullet.className = 'bullet';
+
+                    const pistolRect = pistol.getBoundingClientRect();
+                    const bulletTop = pistolRect.top + 50;
+                    const bulletLeft = pistolRect.left + 80;
+
+                    bullet.style.top = `${bulletTop}px`;
+                    bullet.style.left = `${bulletLeft}px`;
+
+                    document.body.appendChild(bullet);
+
+                    // Animate bullet
+                    setTimeout(() => {
+                        bullet.style.left = `-120px`;
+                    }, 20);
+
+                    const checkInterval = setInterval(() => {
+                        const bulletRect = bullet.getBoundingClientRect();
+                        const buttonRect = toggleButton.getBoundingClientRect();
+                        const panelRect = projectsPanel.getBoundingClientRect();
+
+                        // If bullet hits the panel, close it
+                        if (
+                            projectsPanel.classList.contains('active') &&
+                            bulletRect.left <= panelRect.right &&
+                            bulletRect.right >= panelRect.left &&
+                            bulletRect.top <= panelRect.bottom &&
+                            bulletRect.bottom >= panelRect.top &&
+                            !panelRecentlyOpened &&
+                            !bulletHandled           // ensure it runs only once
+                        ) {
+                            projectsPanel.classList.remove('active');
+                            toggleButton.style.display = 'block';
+                            setTimeout(() => toggleButton.style.opacity = '1', 10);
+                            bulletHandled = true;    // mark handled to prevent re-open
+                        }
+
+                        // If bullet hits the button, open the panel
+                        if (
+                            bulletRect.left <= buttonRect.right &&
+                            bulletRect.right >= buttonRect.left &&
+                            bulletRect.top <= buttonRect.bottom &&
+                            bulletRect.bottom >= buttonRect.top &&
+                            !projectsPanel.classList.contains('active') &&
+                            !bulletHandled            // prevent re-opening if handled
+                        ) {
+                            projectsPanel.classList.add('active');
+                            toggleButton.style.opacity = '0';
+                            setTimeout(() => toggleButton.style.display = 'none', 300);
+
+                            panelRecentlyOpened = true;
+                            setTimeout(() => {
+                                panelRecentlyOpened = false;
+                            }, 500);
+                            bulletHandled = true;    // mark handled to prevent re-trigger
+                        }
+                    }, 10);
+
+                    setTimeout(() => {
+                        bullet.remove();
+                        clearInterval(checkInterval);
+                    }, 1500);
+                });
+
+                // Manual toggle for Projects button
+                toggleButton.addEventListener('click', () => {
+                    projectsPanel.classList.toggle('active');
+                    if (projectsPanel.classList.contains('active')) {
+                        toggleButton.style.opacity = '0';
+                        setTimeout(() => toggleButton.style.display = 'none', 300);
+                    }
+                });
+
+                // Close panel on outside click (not pistol)
+                document.addEventListener('click', (e) => {
+                    if (
+                        !projectsPanel.contains(e.target) &&
+                        e.target !== toggleButton &&
+                        e.target !== pistol &&
+                        !pistol.contains(e.target)
+                    ) {
+                        if (projectsPanel.classList.contains('active')) {
+                            projectsPanel.classList.remove('active');
+                            toggleButton.style.display = 'block';
+                            setTimeout(() => toggleButton.style.opacity = '1', 10);
+                        }
+                    }
+                });
+        </script>
+
+
+
+
+
+        
+    </body>
+</html>

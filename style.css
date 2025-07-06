@@ -1,0 +1,280 @@
+body {
+    background-color: #d0c2a7;
+    margin: 0;
+    padding: 0;
+}
+
+.footer {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #d0c2a7;  /* match your page background or adjust */
+    color: #333;
+    font-family: sans-serif;
+    font-size: 12px;
+    position: fixed;  /* stays at the bottom even when scrolling */
+    bottom: 0;
+    left: 0;
+}
+
+
+.rectangle1 {
+    width: 100%;
+    height: 120px;
+    background-color: #c2d6a5;
+    position: relative;        /* for centering children absolutely */
+}
+
+.center-text-image {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 70%;
+    height: auto;
+}
+
+
+.rectangle2 {
+    width: 100%;
+    height: 40px;
+    background-color: #0068c1;
+}
+
+.rectangle3 {
+    width: 100%;
+    height: 40px;
+    background-color: #a04123;
+    position: relative; /* allows absolute positioning inside */
+}
+
+.linkedin-icon {
+    position: absolute;
+    right: 220px;         /* distance from the right edge */
+    top: 50%;            /* vertically center */
+    transform: translateY(-50%); /* exact vertical centering */
+    height: 32px;        /* adjust size as needed */
+    width: auto;         /* keep aspect ratio */
+    cursor: pointer;     /* indicates clickable */
+    transition: transform 0.2s ease; /* smooth hover effect */
+}
+
+.linkedin-icon:hover {
+    transform: translateY(-50%) scale(1.1); /* slight scale on hover */
+}
+
+.email-container {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.3s ease;
+}
+
+.email-container:hover {
+    transform: translateY(-50%) scale(1.05); /* slight zoom on hover */
+}
+
+.email-icon {
+    height: 30px;
+    width: 30px;
+    margin-right: 8px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.email-container:hover .email-icon {
+    transform: rotate(-10deg) scale(1.2); /* playful tilt and zoom on hover */
+    filter: brightness(1.2);
+}
+
+.email-text {
+    color: white;
+    font-family: sans-serif;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.email-container:hover .email-text {
+    color: #ddd;
+}
+
+
+
+
+.photo-shape {
+    position: absolute;
+    top: 10px;   /* or your preferred positioning */
+    right: 20px;
+    width: 180px;
+    height: 180px;
+    overflow: hidden;
+    border-top-left-radius: 0;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    background-color: #fff;
+    border: 5px solid black;   /* << BLACK FRAME ADDED HERE */
+}
+
+
+
+.photo-shape img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* fills container fully, no bands */
+    display: block;
+}
+
+
+.pistol-bg {
+    position: fixed;
+    top: 50%;                      /* vertically center */
+    right: 20px;                   /* visible from the start */
+    transform: translateY(-50%) scaleX(-1);  /* center vertically + invert horizontally */
+    height: 200px;                 /* adjust as needed */
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    z-index: 0;                    /* behind UI elements */
+}
+
+/* Recoil on hover */
+.pistol-bg:hover {
+    transform: translateY(-50%) scaleX(-1) translateX(-10px) rotate(-5deg);
+}
+
+.muzzle-flash {
+    position: fixed;
+    top: 50%;                      /* align with pistol vertical */
+    right: 80px;                   /* align with pistol barrel */
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, rgba(255,255,0,0.8) 0%, rgba(255,140,0,0.6) 40%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: flash 0.1s ease;
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+@keyframes flash {
+    0% { transform: translateY(-50%) scale(1); opacity: 1; }
+    100% { transform: translateY(-50%) scale(2); opacity: 0; }
+}
+
+.bullet {
+    position: fixed;
+    height: 15px;
+    z-index: 2;
+    pointer-events: none;
+    transition: left 1.2s linear; /* slightly longer for full travel */
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.4));
+    transform: scaleX(-1); /* visually invert to face left */
+}
+
+
+
+.projects-rectangle {
+    position: fixed;
+    top: 200px;          /* under rectangles */
+    left: -250px;        /* hidden initially */
+    width: 250px;
+    height: calc(100% - 200px); /* adjust for visible height under top bars */
+    background-color: #854560;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    z-index: 1;
+    border-right: 3px solid #0068c1;
+    transition: left 0.5s ease;
+}
+
+.projects-rectangle.active {
+    left: 0;             /* slides in when active */
+}
+
+
+
+.projects-rectangle h2 {
+    font-family: sans-serif;
+    color: #000000;
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.projects-content p {
+    font-family: sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+#toggle-projects {
+    position: fixed;
+    top: 270px;       /* under rectangles */
+    left: 20px;       /* near left edge */
+    padding: 10px 14px;
+    font-family: sans-serif;
+    background-color: #0068c1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 2;       /* above the project panel */
+    transition: background-color 0.3s ease;
+}
+
+#toggle-projects:hover {
+    background-color: #0050a0;
+}
+
+@keyframes floatText {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+#shoot-text {
+    position: absolute;
+    top: calc(50% + 110px); /* adjust based on your pistol’s position */
+    right: 40px;             /* align under the pistol */
+    font-family: sans-serif;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    z-index: 2;
+    user-select: none;
+    animation: floatText 3s ease-in-out infinite;
+}
+
+.github-link a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;                         /* white text */
+    text-decoration: none;
+    font-weight: 700;
+    font-family: sans-serif;
+    transition: color 0.3s ease;
+    font-size: 16px;
+    text-shadow:
+        -1px -1px 0 black,
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;                /* creates a clean black edge */
+}
+
+.github-link a:hover {
+    color: #f0f0f0;                       /* slightly lighter on hover */
+    text-decoration: underline;
+}
+
+.github-icon {
+    width: 24px;
+    height: 24px;
+}
